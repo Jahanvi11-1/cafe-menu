@@ -1,0 +1,76 @@
+import { useEffect, useState } from "react"
+import { delData, getData } from "../api/Apidata"
+import { Insertdata } from "./InsertData";
+import "../styles/Displaydata.css";
+export const GetData=()=>
+{
+    const [bdata,setBdata] = useState([]);
+
+    const getApiData= async ()=>
+    {
+        const res = await getData();
+        console.log(res.data);
+        setBdata(res.data);
+    }
+
+    const handleDelete=async(id)=>
+    {
+        const res= await delData(id);
+        try 
+        {
+            if(res.status===200)
+            {
+                const newData = bdata.filter((curEl)=>
+                {
+                    return curEl.id !== id;
+                });
+                setBdata(newData);
+            }
+            else
+            {
+                console.log("Failed to Delete",res.status);
+            }
+        } 
+        catch (error) 
+        {
+            console.log(error);
+        }
+    }
+    
+    useEffect(()=>
+    {
+        getApiData();
+    },[])
+
+
+    return(
+        <>
+            <div>
+                <div className="InsertForm">
+                    <Insertdata cval={bdata} updata={setBdata}/>
+                </div>
+                <div className="DataCard">
+                <ul>
+                    {
+                        bdata.map((bd)=>
+                        {
+                            const {id,title,body}=bd;
+                            return(
+                                <>
+                                    <div className="Card">
+                                    <li><h1>{id}</h1></li>
+                                    <li><p>{title}</p></li>
+                                    <li><p>{body}</p></li>
+                                    <li><button className="DelBtn" onClick={()=>handleDelete(id)}>Delete</button>  
+                                    <button className="ResBtn">Reset</button></li>
+                                    </div>
+                                </>
+                            )
+                        })
+                    }
+                </ul>
+                </div>
+            </div>
+        </>
+    )
+}
