@@ -1,0 +1,38 @@
+.DataCard
+{
+    padding: 20px;
+}
+.Card
+{
+    border: 1px solid gray;
+    margin: 10px;
+    padding: 10px;
+    width: 300px;
+    height: 300px;
+    box-shadow: 5px 5px 5px grey;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 35px;
+}
+.DataCard ul
+{
+    list-style-type: none;
+    padding: 0;
+}
+.DelBtn
+{
+    background-color: rgb(255, 159, 172);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+    margin-right: 10px;
+}
+.ResBtn
+{
+    background-color: rgb(136, 252, 143);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+}
