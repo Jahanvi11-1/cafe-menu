@@ -1,0 +1,31 @@
+.InsertForm form
+{
+    border: 2px solid black;
+    padding: 20px;
+    margin: 20px;
+    width: 200px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+.InsertForm label
+{
+    font-weight: bold;
+}
+.InsertForm input
+{
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.InsertForm button
+{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
