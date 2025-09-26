@@ -1,0 +1,67 @@
+import { insertData } from "../api/Apidata";
+import { useState } from "react";
+import "../styles/insertData.css";
+
+
+export const Insertdata=({cval,updata})=>
+{
+    //State managemnet for input fields
+    const [cinsert,setCinsert] = useState(
+        {
+            title:"",
+            body:"",
+        }
+    );
+
+    //handle Input field
+    const handleInputdata=(obj)=>
+    {
+        const name = obj.target.name;
+        const value = obj.target.value;
+        setCinsert((olddata)=>
+        {
+            return {...olddata,[name]:value,}
+        })
+    }
+
+    //Adding Data for display
+    const addData=async()=>
+    {
+        const result= await insertData(cinsert);
+        console.log(result);
+        if((result.status===201))
+        {
+            updata([
+                ...cval,
+                result.data
+            ]); 
+            setCinsert({title:"",body:"",});
+        }
+    }
+    
+    //Handle form submit function
+    const handleFormsubmit=(e)=>
+    {
+        e.preventDefault();
+        addData();
+    }
+
+
+    return(
+        <>
+        <div className="InsertForm">
+            <form onSubmit={handleFormsubmit}>
+                <label>Title:</label>
+                <br></br>
+                <input type="text" name="title" id="title" value={cinsert.title} placeholder="Enter Title" onChange={handleInputdata}/>
+                <br></br>
+                <label>Body:</label>
+                <br></br>
+                <input type="text" name="body" id="body" value={cinsert.body} placeholder="Enter Body" onChange={handleInputdata}/>
+                <br></br>
+                <button type="submit">Add Data</button>
+            </form>
+        </div>
+        </>
+    )
+}
