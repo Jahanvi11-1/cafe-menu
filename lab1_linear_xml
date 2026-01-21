@@ -219,3 +219,10 @@
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+// in strings.xml 
+ <string-array name="department_array">
+        <item>Select Department</item>
+        <item>CS</item>
+        <item>BT</item>
+        <item>MB</item>
+    </string-array>
