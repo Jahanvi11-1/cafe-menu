@@ -1,0 +1,151 @@
+package com.example.sem6_srki;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class srki_recruitment_form_lab1 extends AppCompatActivity {
+//Declaring objects of classes
+    TextView tv_heading_obj,tv_output_obj;
+    EditText et_name_obj,et_mobileno_obj,et_email_obj,et_aadharno_obj;
+    RadioButton rb_male_obj,rb_female_obj;
+    CheckBox ncc_obj , nss_obj , other_obj;
+    Spinner sp_quali_obj , sp_dept_obj;
+    Button btnSubmit_obj, btnClear_Obj;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_srki_recruitment_form_lab1);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        //Getting UI controls by ID
+        tv_heading_obj=findViewById(R.id.tv_heading);
+        tv_output_obj=findViewById(R.id.tv_output);
+        et_name_obj=findViewById(R.id.et_name);
+        et_mobileno_obj=findViewById(R.id.et_mobileno);
+        et_email_obj=findViewById(R.id.et_email);
+        et_aadharno_obj=findViewById(R.id.et_aadharno);
+        rb_male_obj=findViewById(R.id.rb_male);
+        rb_female_obj=findViewById(R.id.rb_female);
+        ncc_obj=findViewById(R.id.ncc);
+        nss_obj=findViewById(R.id.nss);
+        other_obj=findViewById(R.id.other);
+        sp_quali_obj=findViewById(R.id.sp_qualification);
+        sp_dept_obj=findViewById(R.id.sp_department);
+        btnSubmit_obj=findViewById(R.id.btnSubmit);
+        btnClear_Obj=findViewById(R.id.btnClear);
+
+        String[] qualification = {"Select Qualification", "Ph.D.", "Masters", "Bachelors"};
+        ArrayAdapter<String> qualificationAdapter = new ArrayAdapter<>
+                (this, android.R.layout.simple_spinner_item, qualification);
+
+        qualificationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        sp_quali_obj.setAdapter(qualificationAdapter);
+
+        ArrayAdapter<CharSequence> departmentAdapter =
+                ArrayAdapter.createFromResource(this,
+                        R.array.department_array,
+                        android.R.layout.simple_spinner_item);
+
+        departmentAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        sp_dept_obj.setAdapter(departmentAdapter);
+
+
+    }
+
+    public void fnDisplay(View view) {
+        String name=et_name_obj.getText().toString().trim();
+        String mobile=et_mobileno_obj.getText().toString().trim();
+        String email=et_email_obj.getText().toString().trim();
+        String aadhar=et_aadharno_obj.getText().toString().trim();
+
+        //Validations
+        if(name.isEmpty()){
+            et_name_obj.setError("Enter name");
+            et_name_obj.requestFocus();
+            return;
+
+        }if(et_mobileno_obj.length()!=10){
+            et_mobileno_obj.setError("Enter mobileno");
+            et_mobileno_obj.requestFocus();
+            return;
+        }
+        if(!email.contains("@") || !email.contains(".")){
+            et_email_obj.setError("Enter email");
+            et_email_obj.requestFocus();
+            return;
+        }
+        if(et_aadharno_obj.length()!=12){
+            et_aadharno_obj.setError("Enter aadharno");
+            et_aadharno_obj.requestFocus();
+            return;
+        }
+         String gender="";
+        if(rb_male_obj.isChecked()){
+            gender="Male";
+        }else if(rb_female_obj.isChecked()){
+            gender="Female";
+        }else{
+            Toast.makeText(srki_recruitment_form_lab1.this, "Select Gender", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String activities="";
+        if(ncc_obj.isChecked()) activities += "NCC";
+        if(nss_obj.isChecked()) activities += "NSS";
+        if(other_obj.isChecked()) activities += "Other";
+        if (activities.isEmpty()) {
+            Toast.makeText(srki_recruitment_form_lab1.this, "Select at least one activity", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 🔸 Spinner Values
+        String qualification = sp_quali_obj.getSelectedItem().toString();
+        String department = sp_dept_obj.getSelectedItem().toString();
+        if (sp_quali_obj.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Select Qualification", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (sp_dept_obj.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Select Department", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String output =
+                "Name: " + name +
+                        "\nMobile No: " + mobile +
+                        "\nEmail: " + email +
+                        "\nAadhar No: " + aadhar +
+                        "\nGender: " + gender +
+                        "\nActivities: " + activities +
+                        "\nHighest Qualification: " + qualification +
+                        "\nDepartment: " + department;
+
+        tv_output_obj.setText(output);
+    }
+}
